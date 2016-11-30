@@ -23,6 +23,7 @@ public class ProjetApplication {
         
         try {
             cj.lectureFichierXML();
+            cj.creationFichiers();
             
             /* TEST
             for (EntiteJava ej: cj.getEntites()){
