@@ -147,6 +147,100 @@ public class CreateurJava {
             int att = 0;
             for (String ss: ej.getListeAttributs()){
                 // TODO different cases for JAVA types
+                switch(ej.getTypeAttributs().get(att)){
+                    case("Auto_increment"):
+                        // à faire https://stackoverflow.com/questions/24305830/java-auto-increment-id
+                        ej.getTypeAttributs().set(att, "int");
+                        break;
+                    case("Varchar"):
+                        ej.getTypeAttributs().set(att, "String");
+                        break;
+                    case("Char"):
+                        ej.getTypeAttributs().set(att, "char");
+                        break;
+                    case("Bool"):
+                        ej.getTypeAttributs().set(att, "boolean");
+                        break;
+                    case("Date"):
+                        ej.getTypeAttributs().set(att, "Date");
+                        break;
+                    case("Int"):
+                        ej.getTypeAttributs().set(att, "int");
+                        break;
+                    case("Float"):
+                        ej.getTypeAttributs().set(att, "float");
+                        break;
+                    case("Money"):
+                        ej.getTypeAttributs().set(att, "float");
+                        break;
+                    case("BigInt"):
+                        ej.getTypeAttributs().set(att, "int");
+                        break;
+                    case("Blob"):
+                        ej.getTypeAttributs().set(att, "Blob");
+                        break;
+                    case("Datetime"):
+                        ej.getTypeAttributs().set(att, "Date");
+                        break;
+                    case("Decimal"):
+                        ej.getTypeAttributs().set(att, "float");
+                        break;
+                    case("Double"):
+                        ej.getTypeAttributs().set(att, "double");
+                        break;   
+                    case("Double Precision"):
+                        ej.getTypeAttributs().set(att, "double");
+                        break;   
+                    case("Longblob"):
+                        ej.getTypeAttributs().set(att, "Blob");
+                        break;
+                    case("Longtext"):
+                        ej.getTypeAttributs().set(att, "String");
+                        break;
+                    case("Mediunblob"):
+                        ej.getTypeAttributs().set(att, "Blob");
+                        break;
+                    case("Mediumint"):
+                        ej.getTypeAttributs().set(att, "int");
+                        break;
+                    case("Mediumtext"):
+                        ej.getTypeAttributs().set(att, "String");
+                        break;
+                    case("Numeric"):
+                        ej.getTypeAttributs().set(att, "BigDecimal");
+                        break;
+                    case("Real"):
+                        ej.getTypeAttributs().set(att, "BigInteger");
+                        break;
+                    case("Smallint"):
+                        ej.getTypeAttributs().set(att, "int");
+                        break;
+                    case("Text"):
+                        ej.getTypeAttributs().set(att, "String");
+                        break;   
+                    case("Time"):
+                        ej.getTypeAttributs().set(att, "LocalTime");
+                        break;
+                    case("TimeStamp"):
+                        ej.getTypeAttributs().set(att, "LocalDateTime");
+                        break;
+                    case("TinyBlob"):
+                        ej.getTypeAttributs().set(att, "Blob");
+                        break;
+                    case("TinyINT"):
+                        ej.getTypeAttributs().set(att, "int");
+                        break;
+                    case("TinyText"):
+                        ej.getTypeAttributs().set(att, "String");
+                        break;
+                    case("Year"):
+                        ej.getTypeAttributs().set(att, "int");
+                        break;
+                    case("Integer"):
+                        ej.getTypeAttributs().set(att, "Integer");
+                        break;
+                     
+                }
                 out.write("private "+ej.getTypeAttributs().get(att)+" "+ss+"; \n");  //il manquait un ; avant le passage à la ligne
                 //ajout:
                 att+=1;
@@ -156,12 +250,19 @@ public class CreateurJava {
             
             // Ecriture des constructeurs
             //constructeur par défault
-            out.write("public "+ej.getNom()+"(){ \n } \n \n");
+            out.write("public "+ej.getNom()+"(){ \n");
+            for (String ss: ej.getListeAttributs()){
+                out.write("this."+ss+"="+"null;\n");
+            }
+            out.write("}\n \n");
             //constructeur avec tous les paramètres
             out.write("public "+ej.getNom()+"(");
             att = 0;
             for (String ss: ej.getListeAttributs()){
-                out.write(ej.getTypeAttributs().get(att)+" "+ss+", ");
+                out.write(ej.getTypeAttributs().get(att)+" "+ss);
+                if (att<ej.getListeAttributs().size()-1){
+                    out.write(",");
+                }
                 att+=1;
             }
             out.write("){ \n");
@@ -170,9 +271,9 @@ public class CreateurJava {
             }
             out.write("} \n \n");
             //constructeur de recopie
-            out.write("public "+ej.getNom()+"("+ej.getNom()+" clone) { \n");
+            out.write("public "+ej.getNom()+"("+ej.getNom()+" recopie) { \n");
             for (String ss: ej.getListeAttributs()){
-                out.write("this."+ss+" = clone."+ss+"; \n");
+                out.write("this."+ss+" = recopie."+ss+"; \n");
             }
             out.write("} \n \n");
             
@@ -182,6 +283,7 @@ public class CreateurJava {
                 //ss_Maj est une version de ss avec la première lettre comme majuscule
                 String ss_Maj=ss.replaceFirst(".",(ss.charAt(0)+"").toUpperCase());
                 out.write("public "+ej.getTypeAttributs().get(att)+" get"+ss_Maj+"(){ \n");
+                out.write("return "+ ss+";\n}\n \n");
                 out.write("public void set"+ss_Maj+"("+ej.getTypeAttributs().get(att)+" "+ss+") { \n");
                 out.write("this."+ss+" = "+ss+"; \n } \n \n");
                 att+=1;
@@ -195,6 +297,68 @@ public class CreateurJava {
         //TODO Ecrire les fichiers java des relations
         for (RelationJava rj: this.relations){
             
+        FileWriter fichier = new FileWriter(rj.getNom()+".java");
+            
+        BufferedWriter out = new BufferedWriter(fichier);    
+        
+        //Définition attributs
+        out.write("public class "+rj.getNom()+ " {\n\n");
+        out.write("private "+rj.getEntite1().getNom()+" entite1;\n");
+        out.write("private "+rj.getEntite2().getNom()+" entite2;\n");
+        out.write("private String cardinalite1;\n");
+        out.write("private String cardinalite2;\n}\n\n");
+        
+        //Constructeurs
+        
+        //Constructeur par défaut
+        out.write("public " +rj.getNom()+"() {\n");
+        out.write(" this.entite1 = null;\n");
+        out.write(" this.entite2 = null;\n");
+        out.write(" this.cardinalite1 = null;\n");
+        out.write(" this.cardinalite2 = null;\n}\n");
+         
+        
+        //Constructeur avec tous les paramètres
+        out.write("public " +rj.getNom()+"("+rj.getEntite1().getNom()+" entite1, "+rj.getEntite2().getNom()+" entite2 , String cardinalite1, String cardinalite2) {\n");
+        out.write(" this.entite1 = entite1;\n");
+        out.write(" this.entite2 = entite 2;\n");
+        out.write(" this.cardinalite1 = cardinalite1;\n");
+        out.write(" this.cardinalite2 = cardinalite2;\n\n");
+        
+        //Constructeur de recopiage
+        out.write("public "+rj.getNom()+"("+rj.getNom()+" relation){\n");
+        out.write(" this.entite1 = relation.entite1;\n");
+        out.write(" this.entite2 = relation.entite 2;\n");
+        out.write(" this.cardinalite1 = relation.cardinalite1;\n");
+        out.write(" this.cardinalite2 = relation.cardinalite2;\n}\n\n");
+        
+        //Getters and setters
+        out.write("public "+rj.getEntite1().getNom()+" getEntite1(){\n");
+        out.write(" return entite1;\n}\n\n");
+        
+        out.write("public void setEntite1("+rj.getEntite1().getNom()+" entite1){\n");
+        out.write(" this.entite1 = entite1;\n}\n\n");
+        
+        out.write("public "+rj.getEntite2().getNom()+" getEntite2(){\n");
+        out.write(" return entite2;\n}\n\n");
+        
+        out.write("public void setEntite2("+rj.getEntite2().getNom()+" entite2){\n");
+        out.write(" this.entite2 = entite2;\n}\n\n");
+        
+        out.write("public String getCardinalite1(){\n");
+        out.write(" return cardinalite1;\n}\n\n");
+        
+        out.write("public void setCardinalite1(String cardinalite1){\n");
+        out.write(" this.cardinalite1 = cardinalite1;\n}\n\n");
+        
+        out.write("public String getCardinalite2(){\n");
+        out.write(" return cardinalite2;\n}\n\n");
+        
+        out.write("public void setCardinalite2(String cardinalite2){\n");
+        out.write(" this.cardinalite2 = cardinalite2;\n}\n\n}");    
+    
+            out.close();
+
         }
     }
 }

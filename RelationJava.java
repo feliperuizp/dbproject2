@@ -20,6 +20,7 @@ public class RelationJava {
     public RelationJava() {
         this.nom = null;
         this.entite1 = null;
+        this.entite2 = null;
         this.card1 = "";
         this.card2 = "";
     }
