@@ -140,13 +140,55 @@ public class CreateurJava {
             FileWriter fichier = new FileWriter(ej.getNom()+".java");
             
             BufferedWriter out = new BufferedWriter(fichier);
-                        
+            //ajout:
+            out.write("import java.util.LinkedList; \n \n");
+            
             out.write("public Class "+ ej.getNom() +" { \n \n");
             int att = 0;
             for (String ss: ej.getListeAttributs()){
                 // TODO different cases for JAVA types
-                out.write("private "+ej.getTypeAttributs().get(att)+" "+ss+"\n");
+                out.write("private "+ej.getTypeAttributs().get(att)+" "+ss+"; \n");  //il manquait un ; avant le passage à la ligne
+                //ajout:
+                att+=1;
             }
+            // ajout:
+            out.write("\n"); 
+            
+            // Ecriture des constructeurs
+            //constructeur par défault
+            out.write("public "+ej.getNom()+"(){ \n } \n \n");
+            //constructeur avec tous les paramètres
+            out.write("public "+ej.getNom()+"(");
+            att = 0;
+            for (String ss: ej.getListeAttributs()){
+                out.write(ej.getTypeAttributs().get(att)+" "+ss+", ");
+                att+=1;
+            }
+            out.write("){ \n");
+            for (String ss: ej.getListeAttributs()){
+                out.write("this."+ss+" = "+ss+"; \n");
+            }
+            out.write("} \n \n");
+            //constructeur de recopie
+            out.write("public "+ej.getNom()+"("+ej.getNom()+" clone) { \n");
+            for (String ss: ej.getListeAttributs()){
+                out.write("this."+ss+" = clone."+ss+"; \n");
+            }
+            out.write("} \n \n");
+            
+            // Ecriture des getters et setters
+            att = 0;
+            for (String ss: ej.getListeAttributs()){
+                //ss_Maj est une version de ss avec la première lettre comme majuscule
+                String ss_Maj=ss.replaceFirst(".",(ss.charAt(0)+"").toUpperCase());
+                out.write("public "+ej.getTypeAttributs().get(att)+" get"+ss_Maj+"(){ \n");
+                out.write("public void set"+ss_Maj+"("+ej.getTypeAttributs().get(att)+" "+ss+") { \n");
+                out.write("this."+ss+" = "+ss+"; \n } \n \n");
+                att+=1;
+            }
+            
+            // dernière accolade avant fermeture du fichier
+            out.write("}");
             out.close();
         }
         
