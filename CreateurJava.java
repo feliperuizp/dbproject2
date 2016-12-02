@@ -134,7 +134,7 @@ public class CreateurJava {
             FileWriter fichier = new FileWriter(ej.getNom() + ".java");
 
             BufferedWriter out = new BufferedWriter(fichier);
-            out.write("import java.util.LinkedList; \n \n");
+            out.write("import java.util.*; \n \n");
 
             out.write("public Class " + ej.getNom() + " { \n \n");
             int att = 0;
@@ -318,7 +318,7 @@ public class CreateurJava {
             FileWriter fichier = new FileWriter(rj.getNom() + ".java");
 
             BufferedWriter out = new BufferedWriter(fichier);
-            out.write("import java.util.LinkedList; \n \n");
+            out.write("import java.util.*; \n \n");
             
             //Définition attributs
             out.write("public class " + rj.getNom() + " {\n\n");
