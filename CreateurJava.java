@@ -298,30 +298,27 @@ public class CreateurJava {
             out.write("public class " + rj.getNom() + " {\n\n");
             out.write("private " + rj.getEntite1().getNom() + " entite1;\n");
             out.write("private " + rj.getEntite2().getNom() + " entite2;\n");
-            out.write("private String cardinalite1;\n");
-            out.write("private String cardinalite2;\n}\n\n");
+            out.write("private final String cardinalite1 = "+rj.getCard1()+";\n");
+            out.write("private final String cardinalite2 = "+rj.getCard2()+";\n}\n\n");
 
             //Constructeurs
             //Constructeur par défaut
             out.write("public " + rj.getNom() + "() {\n");
             out.write(" this.entite1 = null;\n");
             out.write(" this.entite2 = null;\n");
-            out.write(" this.cardinalite1 = null;\n");
-            out.write(" this.cardinalite2 = null;\n}\n");
 
             //Constructeur avec tous les paramètres
-            out.write("public " + rj.getNom() + "(" + rj.getEntite1().getNom() + " entite1, " + rj.getEntite2().getNom() + " entite2 , String cardinalite1, String cardinalite2) {\n");
+            out.write("public " + rj.getNom() + "(" + rj.getEntite1().getNom() + " entite1, " + rj.getEntite2().getNom() + " entite2) {\n");
             out.write(" this.entite1 = entite1;\n");
             out.write(" this.entite2 = entite2;\n");
             out.write(" this.cardinalite1 = cardinalite1;\n");
             out.write(" this.cardinalite2 = cardinalite2;\n\n");
 
+
             //Constructeur de recopiage
             out.write("public " + rj.getNom() + "(" + rj.getNom() + " relation){\n");
             out.write(" this.entite1 = relation.entite1;\n");
             out.write(" this.entite2 = relation.entite 2;\n");
-            out.write(" this.cardinalite1 = relation.cardinalite1;\n");
-            out.write(" this.cardinalite2 = relation.cardinalite2;\n}\n\n");
 
             //Getters and setters
             out.write("public " + rj.getEntite1().getNom() + " getEntite1(){\n");
