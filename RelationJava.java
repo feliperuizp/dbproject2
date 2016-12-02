@@ -10,7 +10,7 @@ package dbproject2;
  * @author Ruizo
  */
 public class RelationJava {
-    
+
     private String nom;
     private EntiteJava entite1;
     private EntiteJava entite2;
@@ -64,9 +64,5 @@ public class RelationJava {
     public void setCard2(String card2) {
         this.card2 = card2;
     }
-    
-    
-    
-    
-    
+
 }

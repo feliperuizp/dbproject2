@@ -19,7 +19,7 @@ public class ProjetApplication {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        CreateurJava cj = new CreateurJava("/Users/Ruizo/Desktop/ejemplo BD.xml");
+        CreateurJava cj = new CreateurJava("/Users/fabienrouillon/Desktop/MCDtest.xml");
         
         try {
             cj.lectureFichierXML();
