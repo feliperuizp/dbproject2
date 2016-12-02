@@ -344,7 +344,7 @@ public class CreateurJava {
             //Constructeur de recopiage
             out.write("    public " + rj.getNom() + "(" + rj.getNom() + " relation){\n");
             out.write("        this.entite1 = relation.entite1;\n");
-            out.write("        this.entite2 = relation.entite 2;\n    }\n\n");
+            out.write("        this.entite2 = relation.entite2;\n    }\n\n");
             
             //Getters and setters
             out.write("    public " + rj.getEntite1().getNom() + " getEntite1(){\n");
