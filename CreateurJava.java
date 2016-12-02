@@ -338,7 +338,7 @@ public class CreateurJava {
             out.write("    this.entite1 = entite1;\n");
             out.write("    this.entite2 = entite2;\n");
             out.write("    this.cardinalite1 = cardinalite1;\n");
-            out.write("    this.cardinalite2 = cardinalite2;\n    }\n");
+            out.write("    this.cardinalite2 = cardinalite2;\n    }\n\n");
 
 
             //Constructeur de recopiage
