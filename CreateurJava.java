@@ -95,11 +95,6 @@ public class CreateurJava {
                         separation = scan(s, 7);
                         this.entites.get(entites - 1).getListeAttributs().add(separation[1]);
                         this.entites.get(entites - 1).getTypeAttributs().add(separation[3]);
-                        int hola = 0;
-                        for (String ss : separation) {
-                            System.out.println(ss + " " + hola);
-                            hola += 1;
-                        }
                         break;
                     case "<link":
                         separation = scan(s, 5);
@@ -118,7 +113,6 @@ public class CreateurJava {
                             for (EntiteJava ej : this.entites) {
                                 if (ej.getNom().equals(separation[5])) {
                                     this.relations.get((nrel - 1) / 2).setEntite2(ej);
-                                    System.out.println("holaaa agregamos a " + separation[5] + " a " + this.relations.get((nrel - 1) / 2).getNom());
                                 }
                             }
                         }
