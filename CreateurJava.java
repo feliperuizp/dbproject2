@@ -292,7 +292,8 @@ public class CreateurJava {
             FileWriter fichier = new FileWriter(rj.getNom() + ".java");
 
             BufferedWriter out = new BufferedWriter(fichier);
-
+            out.write("import java.util.LinkedList; \n \n");
+            
             //Définition attributs
             out.write("public class " + rj.getNom() + " {\n\n");
             out.write("private " + rj.getEntite1().getNom() + " entite1;\n");
@@ -311,7 +312,7 @@ public class CreateurJava {
             //Constructeur avec tous les paramètres
             out.write("public " + rj.getNom() + "(" + rj.getEntite1().getNom() + " entite1, " + rj.getEntite2().getNom() + " entite2 , String cardinalite1, String cardinalite2) {\n");
             out.write(" this.entite1 = entite1;\n");
-            out.write(" this.entite2 = entite 2;\n");
+            out.write(" this.entite2 = entite2;\n");
             out.write(" this.cardinalite1 = cardinalite1;\n");
             out.write(" this.cardinalite2 = cardinalite2;\n\n");
 
