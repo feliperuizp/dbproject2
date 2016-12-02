@@ -127,6 +127,8 @@ public class CreateurJava {
     }
 
     public void creationFichiers() throws IOException {
+        
+        String nullval = "";
 
         for (EntiteJava ej : this.entites) {
             FileWriter fichier = new FileWriter(ej.getNom() + ".java");
@@ -141,93 +143,123 @@ public class CreateurJava {
                     case ("Auto_increment"):
                         // TODO https://stackoverflow.com/questions/24305830/java-auto-increment-id
                         ej.getTypeAttributs().set(att, "int");
+                        nullval="0";
                         break;
                     case ("Varchar"):
                         ej.getTypeAttributs().set(att, "String");
+                        nullval="null";
                         break;
                     case ("Char"):
                         ej.getTypeAttributs().set(att, "char");
+                        nullval="''";
                         break;
                     case ("Bool"):
-                        ej.getTypeAttributs().set(att, "boolean");
+                        ej.getTypeAttributs().set(att, "Boolean");
+                        nullval="null";
                         break;
                     case ("Date"):
                         ej.getTypeAttributs().set(att, "Date");
+                        nullval="null";
                         break;
                     case ("Int"):
                         ej.getTypeAttributs().set(att, "int");
+                        nullval="0";
                         break;
                     case ("Float"):
                         ej.getTypeAttributs().set(att, "float");
+                        nullval="0";
                         break;
                     case ("Money"):
                         ej.getTypeAttributs().set(att, "float");
+                        nullval="0";
                         break;
                     case ("BigInt"):
                         ej.getTypeAttributs().set(att, "int");
+                        nullval="0";
                         break;
                     case ("Blob"):
                         ej.getTypeAttributs().set(att, "Blob");
+                        nullval="null";
                         break;
                     case ("Datetime"):
                         ej.getTypeAttributs().set(att, "Date");
+                        nullval="null";
                         break;
                     case ("Decimal"):
                         ej.getTypeAttributs().set(att, "float");
+                        nullval="0";
                         break;
                     case ("Double"):
                         ej.getTypeAttributs().set(att, "double");
+                        nullval="0";
                         break;
                     case ("Double Precision"):
                         ej.getTypeAttributs().set(att, "double");
+                        nullval="0";
                         break;
                     case ("Longblob"):
                         ej.getTypeAttributs().set(att, "Blob");
+                        nullval="null";
                         break;
                     case ("Longtext"):
                         ej.getTypeAttributs().set(att, "String");
+                        nullval="null";
                         break;
                     case ("Mediunblob"):
                         ej.getTypeAttributs().set(att, "Blob");
+                        nullval="null";
                         break;
                     case ("Mediumint"):
                         ej.getTypeAttributs().set(att, "int");
+                        nullval="0";
                         break;
                     case ("Mediumtext"):
                         ej.getTypeAttributs().set(att, "String");
+                        nullval="null";
                         break;
                     case ("Numeric"):
                         ej.getTypeAttributs().set(att, "BigDecimal");
+                        nullval="null";
                         break;
                     case ("Real"):
                         ej.getTypeAttributs().set(att, "BigInteger");
+                        nullval="null";
                         break;
                     case ("Smallint"):
                         ej.getTypeAttributs().set(att, "int");
+                        nullval="0";
                         break;
                     case ("Text"):
                         ej.getTypeAttributs().set(att, "String");
+                        nullval="null";
                         break;
                     case ("Time"):
                         ej.getTypeAttributs().set(att, "LocalTime");
+                        nullval="null";
                         break;
                     case ("TimeStamp"):
                         ej.getTypeAttributs().set(att, "LocalDateTime");
+                        nullval="null";
                         break;
                     case ("TinyBlob"):
                         ej.getTypeAttributs().set(att, "Blob");
+                        nullval="null";
                         break;
                     case ("TinyINT"):
                         ej.getTypeAttributs().set(att, "int");
+                        nullval="0";
                         break;
                     case ("TinyText"):
                         ej.getTypeAttributs().set(att, "String");
+                        nullval="null";
                         break;
                     case ("Year"):
                         ej.getTypeAttributs().set(att, "int");
+                        nullval="0";
                         break;
                     case ("Integer"):
                         ej.getTypeAttributs().set(att, "Integer");
+                        nullval="null";
                         break;
 
                 }
@@ -240,7 +272,7 @@ public class CreateurJava {
             //constructeur par défault
             out.write("public " + ej.getNom() + "(){ \n");
             for (String ss : ej.getListeAttributs()) {
-                out.write("this." + ss + "=" + "null;\n");
+                out.write("this." + ss + "= " + nullval+";\n");
             }
             out.write("}\n \n");
             //constructeur avec tous les paramètres
