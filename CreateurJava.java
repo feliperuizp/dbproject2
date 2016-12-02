@@ -75,6 +75,8 @@ public class CreateurJava {
         RelationJava rel;
         int entites = 0;
         int nrel = 0;
+        boolean passageRelation = false;
+        String relationCourante = "";
 
         while ((line = d.readLine()) != null) {
 
@@ -91,43 +93,51 @@ public class CreateurJava {
                         this.entites.add(ent);
                         entites += 1;
                         break;
+                    case "<relation":
+                        separation = scan(s, 7);
+                        passageRelation = true;
+                        relationCourante = separation[0];
+                        rel = new RelationJava();
+                        rel.setNom(relationCourante);
+                        this.relations.add(rel);
+                        break;
                     case "<attribut":
                         separation = scan(s, 7);
-                        this.entites.get(entites - 1).getListeAttributs().add(separation[1]);
-                        this.entites.get(entites - 1).getTypeAttributs().add(separation[3]);
-                        break;
-                    case "<link":
-                        separation = scan(s, 5);
-                        if (nrel % 2 == 0) {
-                            rel = new RelationJava();
-                            rel.setNom(separation[7]);
-                            rel.setCard1(separation[3]);
-                            for (EntiteJava ej : this.entites) {
-                                if (ej.getNom().equals(separation[5])) {
-                                    rel.setEntite1(ej);
-                                }
-                            }
-                            this.relations.add(rel);
-                        } else {
-                            this.relations.get((nrel - 1) / 2).setCard2(separation[3]);
-                            for (EntiteJava ej : this.entites) {
-                                if (ej.getNom().equals(separation[5])) {
-                                    this.relations.get((nrel - 1) / 2).setEntite2(ej);
+                        if (passageRelation) {
+                            for (RelationJava r:this.relations) {
+                                if (r.getNom().equals(relationCourante)) {
+                                    r.getListeAttributs().add(separation[1]);
+                                    r.getTypeAttributs().add(separation[3]);
                                 }
                             }
                         }
-                        nrel += 1;
+                        else {
+                        this.entites.get(entites - 1).getListeAttributs().add(separation[1]);
+                        this.entites.get(entites - 1).getTypeAttributs().add(separation[3]);
+                        }
+                        break;
+                    case "<link":
+                        separation = scan(s, 5);
+                        for (RelationJava rj : this.relations) {
+                            if (rj.getNom().equals(separation[7])) {
+                                rj.getListeCardinalites().add(separation[3]);
+                                for (EntiteJava ej : this.entites) {
+                                    if (ej.getNom().equals(separation[5])) {
+                                        rj.getListeEntites().add(ej);
+                                    }
+                                }
+                            }
+                        }
                         break;
                     default:
                         break;
                 }
-
             }
         }
     }
 
     public void creationFichiers() throws IOException {
-        
+
         String nullval = "";
 
         for (EntiteJava ej : this.entites) {
@@ -143,123 +153,123 @@ public class CreateurJava {
                     case ("Auto_increment"):
                         // TODO https://stackoverflow.com/questions/24305830/java-auto-increment-id
                         ej.getTypeAttributs().set(att, "int");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("Varchar"):
                         ej.getTypeAttributs().set(att, "String");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Char"):
                         ej.getTypeAttributs().set(att, "char");
-                        nullval="''";
+                        nullval = "''";
                         break;
                     case ("Bool"):
                         ej.getTypeAttributs().set(att, "Boolean");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Date"):
                         ej.getTypeAttributs().set(att, "Date");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Int"):
                         ej.getTypeAttributs().set(att, "int");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("Float"):
                         ej.getTypeAttributs().set(att, "float");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("Money"):
                         ej.getTypeAttributs().set(att, "float");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("BigInt"):
                         ej.getTypeAttributs().set(att, "int");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("Blob"):
                         ej.getTypeAttributs().set(att, "Blob");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Datetime"):
                         ej.getTypeAttributs().set(att, "Date");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Decimal"):
                         ej.getTypeAttributs().set(att, "float");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("Double"):
                         ej.getTypeAttributs().set(att, "double");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("Double Precision"):
                         ej.getTypeAttributs().set(att, "double");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("Longblob"):
                         ej.getTypeAttributs().set(att, "Blob");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Longtext"):
                         ej.getTypeAttributs().set(att, "String");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Mediunblob"):
                         ej.getTypeAttributs().set(att, "Blob");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Mediumint"):
                         ej.getTypeAttributs().set(att, "int");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("Mediumtext"):
                         ej.getTypeAttributs().set(att, "String");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Numeric"):
                         ej.getTypeAttributs().set(att, "BigDecimal");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Real"):
                         ej.getTypeAttributs().set(att, "BigInteger");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Smallint"):
                         ej.getTypeAttributs().set(att, "int");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("Text"):
                         ej.getTypeAttributs().set(att, "String");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Time"):
                         ej.getTypeAttributs().set(att, "LocalTime");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("TimeStamp"):
                         ej.getTypeAttributs().set(att, "LocalDateTime");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("TinyBlob"):
                         ej.getTypeAttributs().set(att, "Blob");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("TinyINT"):
                         ej.getTypeAttributs().set(att, "int");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("TinyText"):
                         ej.getTypeAttributs().set(att, "String");
-                        nullval="null";
+                        nullval = "null";
                         break;
                     case ("Year"):
                         ej.getTypeAttributs().set(att, "int");
-                        nullval="0";
+                        nullval = "0";
                         break;
                     case ("Integer"):
                         ej.getTypeAttributs().set(att, "Integer");
-                        nullval="null";
+                        nullval = "null";
                         break;
 
                 }
@@ -272,7 +282,7 @@ public class CreateurJava {
             //constructeur par défault
             out.write("    public " + ej.getNom() + "(){ \n");
             for (String ss : ej.getListeAttributs()) {
-                out.write("        this." + ss + "= " + nullval+";\n");
+                out.write("        this." + ss + "= " + nullval + ";\n");
             }
             out.write("    }\n \n");
             //constructeur avec tous les paramètres
@@ -319,58 +329,102 @@ public class CreateurJava {
 
             BufferedWriter out = new BufferedWriter(fichier);
             out.write("import java.util.*; \n \n");
-            
+
             //Définition attributs
             out.write("public class " + rj.getNom() + " {\n\n");
-            out.write("    private " + rj.getEntite1().getNom() + " entite1;\n");
-            out.write("    private " + rj.getEntite2().getNom() + " entite2;\n");
-            out.write("    private final String cardinalite1 = \""+rj.getCard1()+"\";\n");
-            out.write("    private final String cardinalite2 = \""+rj.getCard2()+"\";\n\n\n");
+            
+            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
+                out.write("    private " + rj.getListeEntites().get(j-1).getNom() + " entite"+j+";\n");
+            }
+            
+            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
+                out.write("    private String cardinalite"+j+" = \"" + rj.getListeCardinalites().get(j-1) + "\";\n");
+            }
+            
+            for (int j=1 ; j<=rj.getListeAttributs().size(); j++) {
+                out.write("    private " + rj.getTypeAttributs().get(j-1) + " " + rj.getListeAttributs().get(j-1) + "; \n");
+            }
+            
+            out.write("\n\n");
 
             //Constructeurs
+            
             //Constructeur par défaut
             out.write("    public " + rj.getNom() + "() {\n");
-            out.write("        this.entite1 = null;\n");
-            out.write("        this.entite2 = null;\n    }\n\n");
+            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
+                out.write("        this.entite"+j+" = null;\n");
+                out.write("        this.cardinalite"+j+" = \"\";\n");
+            }
+            for (int j=1 ; j<=rj.getListeAttributs().size(); j++) {
+                out.write("        this."+rj.getListeAttributs().get(j-1)+" = null;\n");
+            }
+            out.write("    }\n\n");
 
             //Constructeur avec tous les paramètres
-            out.write("    public " + rj.getNom() + "(" + rj.getEntite1().getNom() + " entite1, " + rj.getEntite2().getNom() + " entite2) {\n");
-            out.write("    this.entite1 = entite1;\n");
-            out.write("    this.entite2 = entite2;\n");
-            out.write("    this.cardinalite1 = cardinalite1;\n");
-            out.write("    this.cardinalite2 = cardinalite2;\n    }\n\n");
-
-
-            //Constructeur de recopiage
-            out.write("    public " + rj.getNom() + "(" + rj.getNom() + " relation){\n");
-            out.write("        this.entite1 = relation.entite1;\n");
-            out.write("        this.entite2 = relation.entite2;\n    }\n\n");
+            out.write("    public " + rj.getNom() + "(");
+            for (int j=1 ; j<=rj.getListeAttributs().size(); j++) {
+               out.write(rj.getTypeAttributs().get(j-1) +" "+ rj.getListeAttributs().get(j-1)+", ");
+            }
+            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
+                out.write("String cardinalite"+j+", ");
+            }
+            for (int j=1 ; j<=rj.getListeEntites().size()-1; j++) {
+               out.write(rj.getListeEntites().get(j-1).getNom() + " entite"+j+", ");
+            }
+            out.write(rj.getListeEntites().get(rj.getListeEntites().size()-1).getNom() + " entite"+rj.getListeEntites().size()+") {\n");
             
+            for (int j=1 ; j<=rj.getListeAttributs().size(); j++) {
+                out.write("        this."+rj.getListeAttributs().get(j-1)+" = "+rj.getListeAttributs().get(j-1)+";\n");
+            }
+            
+            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
+                out.write("        this.entite"+j+" = entite"+j+";\n");
+            }
+            
+            for (int j=1 ; j<=rj.getListeCardinalites().size(); j++) {
+                out.write("        this.cardinalite"+j+" = cardinalite"+j+";\n");
+            }
+            out.write("    }\n\n");
+
+            //Constructeur de recopie
+            out.write("    public " + rj.getNom() + "(" + rj.getNom() + " recopie){\n");
+            for (int j=1 ; j<=rj.getListeAttributs().size(); j++) {
+                out.write("        this."+rj.getListeAttributs().get(j-1)+" = recopie."+rj.getListeAttributs().get(j-1)+";\n");
+            }
+            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
+                out.write("        this.entite"+j+" = recopie.entite"+j+";\n");
+                out.write("        this.cardinalite"+j+" = recopie.cardinalite"+j+";\n");
+            }
+            out.write("    }\n\n");
+
             //Getters and setters
-            out.write("    public " + rj.getEntite1().getNom() + " getEntite1(){\n");
-            out.write("        return entite1;\n    }\n\n");
+            for (int j=1; j<= rj.getListeCardinalites().size(); j++) {
+                
+                out.write("    public " + rj.getListeEntites().get(j-1).getNom() + " getEntite"+j+"(){\n");
+                out.write("        return entite"+j+";\n    }\n\n");
+            
+                out.write("    public String getCardinalite"+j+"(){\n");
+                out.write("        return cardinalite"+j+";\n    }\n\n");
+                
+                out.write("    public void setEntite"+j+"(" + rj.getListeEntites().get(j-1).getNom() + " entite"+j+"){\n");
+                out.write("        this.entite"+j+" = entite"+j+";\n    }\n\n");
+                
+                out.write("    public void setCardinalite"+j+"(String cardinalite"+j+"){\n");
+                out.write("        this.cardinalite"+j+" = cardinalite"+j+";\n    }\n\n");
+            }
+            
+            for (int j=1; j<= rj.getListeAttributs().size(); j++) {
+                
+                String Maj = rj.getListeAttributs().get(j-1).replaceFirst(".", (rj.getListeAttributs().get(j-1).charAt(0) + "").toUpperCase());
+                
+                out.write("    public " + rj.getListeAttributs().get(j-1) + " get"+Maj+"(){\n");
+                out.write("        return "+rj.getListeAttributs().get(j-1)+";\n    }\n\n");
+                
+                out.write("    public void set"+Maj+"(" + rj.getTypeAttributs().get(j-1) + " "+rj.getListeAttributs().get(j-1)+"){\n");
+                out.write("        this."+rj.getListeAttributs().get(j-1)+" = "+rj.getListeAttributs().get(j-1)+";\n    }\n\n");
+            }
 
-            out.write("    public void setEntite1(" + rj.getEntite1().getNom() + " entite1){\n");
-            out.write("        this.entite1 = entite1;\n    }\n\n");
-
-            out.write("    public " + rj.getEntite2().getNom() + " getEntite2(){\n");
-            out.write("        return entite2;\n    }\n\n");
-
-            out.write("    public void setEntite2(" + rj.getEntite2().getNom() + " entite2){\n");
-            out.write("        this.entite2 = entite2;\n    }\n\n");
-
-            out.write("    public String getCardinalite1(){\n");
-            out.write("        return cardinalite1;\n    }\n\n");
-
-            out.write("    public void setCardinalite1(String cardinalite1){\n");
-            out.write("        this.cardinalite1 = cardinalite1;\n    }\n\n");
-
-            out.write("    public String getCardinalite2(){\n");
-            out.write("        return cardinalite2;\n    }\n\n");
-
-            out.write("    public void setCardinalite2(String cardinalite2){\n");
-            out.write("        this.cardinalite2 = cardinalite2;\n    }\n\n}");
-
+            out.write("}");
             out.close();
 
         }

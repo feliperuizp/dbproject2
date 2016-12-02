@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package dbproject2;
-
+import java.util.LinkedList;
 /**
  *
  * @author Ruizo
@@ -12,17 +12,17 @@ package dbproject2;
 public class RelationJava {
 
     private String nom;
-    private EntiteJava entite1;
-    private EntiteJava entite2;
-    private String card1;
-    private String card2;
-
+    private LinkedList<EntiteJava> listeEntites;
+    private LinkedList<String> listeCardinalites;
+    private LinkedList<String> listeAttributs;
+    private LinkedList<String> typeAttributs;
+    
     public RelationJava() {
         this.nom = null;
-        this.entite1 = null;
-        this.entite2 = null;
-        this.card1 = "";
-        this.card2 = "";
+        this.listeEntites = new LinkedList<>();
+        this.listeCardinalites = new LinkedList<>();
+        this.listeAttributs = new LinkedList<>();
+        this.typeAttributs = new LinkedList<>();
     }
 
     public String getNom() {
@@ -33,36 +33,36 @@ public class RelationJava {
         this.nom = nom;
     }
 
-    public EntiteJava getEntite1() {
-        return entite1;
+    public LinkedList<String> getTypeAttributs() {
+        return typeAttributs;
     }
 
-    public void setEntite1(EntiteJava entite1) {
-        this.entite1 = entite1;
+    public void setTypeAttributs(LinkedList<String> typeAttributs) {
+        this.typeAttributs = typeAttributs;
+    }
+    
+    public LinkedList<String> getListeAttributs() {
+        return listeAttributs;
     }
 
-    public EntiteJava getEntite2() {
-        return entite2;
+    public void setListeAttributs(LinkedList<String> listeAttributs) {
+        this.listeAttributs = listeAttributs;
+    }
+    
+    public LinkedList<EntiteJava> getListeEntites() {
+        return listeEntites;
     }
 
-    public void setEntite2(EntiteJava entite2) {
-        this.entite2 = entite2;
+    public void setListeEntites(LinkedList<EntiteJava> listeEntites) {
+        this.listeEntites = listeEntites;
     }
 
-    public String getCard1() {
-        return card1;
+    public LinkedList<String> getListeCardinalites() {
+        return listeCardinalites;
     }
 
-    public void setCard1(String card1) {
-        this.card1 = card1;
-    }
-
-    public String getCard2() {
-        return card2;
-    }
-
-    public void setCard2(String card2) {
-        this.card2 = card2;
+    public void setListeCardinalites(LinkedList<String> listeCardinalites) {
+        this.listeCardinalites = listeCardinalites;
     }
 
 }
