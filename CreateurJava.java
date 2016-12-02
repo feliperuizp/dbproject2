@@ -274,7 +274,7 @@ public class CreateurJava {
             for (String ss : ej.getListeAttributs()) {
                 out.write("        this." + ss + "= " + nullval+";\n");
             }
-            out.write("}\n \n");
+            out.write("    }\n \n");
             //constructeur avec tous les paramètres
             out.write("    public " + ej.getNom() + "(");
             att = 0;
@@ -289,13 +289,13 @@ public class CreateurJava {
             for (String ss : ej.getListeAttributs()) {
                 out.write("        this." + ss + " = " + ss + "; \n");
             }
-            out.write("} \n \n");
+            out.write("    } \n \n");
             //constructeur de recopie
             out.write("    public " + ej.getNom() + "(" + ej.getNom() + " recopie) { \n");
             for (String ss : ej.getListeAttributs()) {
                 out.write("        this." + ss + " = recopie." + ss + "; \n");
             }
-            out.write("} \n \n");
+            out.write("    } \n \n");
 
             // Ecriture des getters et setters
             att = 0;
@@ -303,9 +303,9 @@ public class CreateurJava {
                 //ss_Maj est une version de ss avec la première lettre comme majuscule
                 String ss_Maj = ss.replaceFirst(".", (ss.charAt(0) + "").toUpperCase());
                 out.write("    public " + ej.getTypeAttributs().get(att) + " get" + ss_Maj + "(){ \n");
-                out.write("        return " + ss + ";\n}\n \n");
+                out.write("        return " + ss + ";\n    }\n \n");
                 out.write("    public void set" + ss_Maj + "(" + ej.getTypeAttributs().get(att) + " " + ss + ") { \n");
-                out.write("        this." + ss + " = " + ss + "; \n } \n \n");
+                out.write("        this." + ss + " = " + ss + "; \n    } \n \n");
                 att += 1;
             }
 
@@ -325,51 +325,51 @@ public class CreateurJava {
             out.write("    private " + rj.getEntite1().getNom() + " entite1;\n");
             out.write("    private " + rj.getEntite2().getNom() + " entite2;\n");
             out.write("    private final String cardinalite1 = \""+rj.getCard1()+"\";\n");
-            out.write("    private final String cardinalite2 = \""+rj.getCard2()+"\";\n}\n\n");
+            out.write("    private final String cardinalite2 = \""+rj.getCard2()+"\";\n\n\n");
 
             //Constructeurs
             //Constructeur par défaut
             out.write("    public " + rj.getNom() + "() {\n");
             out.write("        this.entite1 = null;\n");
-            out.write("        this.entite2 = null;\n}\n\n");
+            out.write("        this.entite2 = null;\n    }\n\n");
 
             //Constructeur avec tous les paramètres
             out.write("    public " + rj.getNom() + "(" + rj.getEntite1().getNom() + " entite1, " + rj.getEntite2().getNom() + " entite2) {\n");
             out.write("    this.entite1 = entite1;\n");
             out.write("    this.entite2 = entite2;\n");
             out.write("    this.cardinalite1 = cardinalite1;\n");
-            out.write("    this.cardinalite2 = cardinalite2;\n}\n");
+            out.write("    this.cardinalite2 = cardinalite2;\n    }\n");
 
 
             //Constructeur de recopiage
             out.write("    public " + rj.getNom() + "(" + rj.getNom() + " relation){\n");
             out.write("        this.entite1 = relation.entite1;\n");
-            out.write("        this.entite2 = relation.entite 2;\n}\n\n");
+            out.write("        this.entite2 = relation.entite 2;\n    }\n\n");
             
             //Getters and setters
             out.write("    public " + rj.getEntite1().getNom() + " getEntite1(){\n");
-            out.write("        return entite1;\n}\n\n");
+            out.write("        return entite1;\n    }\n\n");
 
             out.write("    public void setEntite1(" + rj.getEntite1().getNom() + " entite1){\n");
-            out.write("        this.entite1 = entite1;\n}\n\n");
+            out.write("        this.entite1 = entite1;\n    }\n\n");
 
             out.write("    public " + rj.getEntite2().getNom() + " getEntite2(){\n");
-            out.write("        return entite2;\n}\n\n");
+            out.write("        return entite2;\n    }\n\n");
 
             out.write("    public void setEntite2(" + rj.getEntite2().getNom() + " entite2){\n");
-            out.write("        this.entite2 = entite2;\n}\n\n");
+            out.write("        this.entite2 = entite2;\n    }\n\n");
 
             out.write("    public String getCardinalite1(){\n");
-            out.write("        return cardinalite1;\n}\n\n");
+            out.write("        return cardinalite1;\n    }\n\n");
 
             out.write("    public void setCardinalite1(String cardinalite1){\n");
-            out.write("        this.cardinalite1 = cardinalite1;\n}\n\n");
+            out.write("        this.cardinalite1 = cardinalite1;\n    }\n\n");
 
             out.write("    public String getCardinalite2(){\n");
-            out.write("        return cardinalite2;\n}\n\n");
+            out.write("        return cardinalite2;\n    }\n\n");
 
             out.write("    public void setCardinalite2(String cardinalite2){\n");
-            out.write("        this.cardinalite2 = cardinalite2;\n}\n\n}");
+            out.write("        this.cardinalite2 = cardinalite2;\n    }\n\n}");
 
             out.close();
 
