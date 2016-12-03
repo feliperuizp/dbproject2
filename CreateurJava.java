@@ -104,16 +104,15 @@ public class CreateurJava {
                     case "<attribut":
                         separation = scan(s, 7);
                         if (passageRelation) {
-                            for (RelationJava r:this.relations) {
+                            for (RelationJava r : this.relations) {
                                 if (r.getNom().equals(relationCourante)) {
                                     r.getListeAttributs().add(separation[1]);
                                     r.getTypeAttributs().add(separation[3]);
                                 }
                             }
-                        }
-                        else {
-                        this.entites.get(entites - 1).getListeAttributs().add(separation[1]);
-                        this.entites.get(entites - 1).getTypeAttributs().add(separation[3]);
+                        } else {
+                            this.entites.get(entites - 1).getListeAttributs().add(separation[1]);
+                            this.entites.get(entites - 1).getTypeAttributs().add(separation[3]);
                         }
                         break;
                     case "<link":
@@ -144,6 +143,7 @@ public class CreateurJava {
             FileWriter fichier = new FileWriter(ej.getNom() + ".java");
 
             BufferedWriter out = new BufferedWriter(fichier);
+            out.write("package ; \n \n");
             out.write("import java.util.*; \n \n");
 
             out.write("public Class " + ej.getNom() + " { \n \n");
@@ -328,100 +328,229 @@ public class CreateurJava {
             FileWriter fichier = new FileWriter(rj.getNom() + ".java");
 
             BufferedWriter out = new BufferedWriter(fichier);
+            out.write("package ; \n \n");
             out.write("import java.util.*; \n \n");
+
+            int att = 0;
+            for (String ss : rj.getListeAttributs()) {
+                switch (rj.getTypeAttributs().get(att)) {
+                    case ("Auto_increment"):
+                        // TODO https://stackoverflow.com/questions/24305830/java-auto-increment-id
+                        rj.getTypeAttributs().set(att, "int");
+                        nullval = "0";
+                        break;
+                    case ("Varchar"):
+                        rj.getTypeAttributs().set(att, "String");
+                        nullval = "null";
+                        break;
+                    case ("Char"):
+                        rj.getTypeAttributs().set(att, "char");
+                        nullval = "''";
+                        break;
+                    case ("Bool"):
+                        rj.getTypeAttributs().set(att, "Boolean");
+                        nullval = "null";
+                        break;
+                    case ("Date"):
+                        rj.getTypeAttributs().set(att, "Date");
+                        nullval = "null";
+                        break;
+                    case ("Int"):
+                        rj.getTypeAttributs().set(att, "int");
+                        nullval = "0";
+                        break;
+                    case ("Float"):
+                        rj.getTypeAttributs().set(att, "float");
+                        nullval = "0";
+                        break;
+                    case ("Money"):
+                        rj.getTypeAttributs().set(att, "float");
+                        nullval = "0";
+                        break;
+                    case ("BigInt"):
+                        rj.getTypeAttributs().set(att, "int");
+                        nullval = "0";
+                        break;
+                    case ("Blob"):
+                        rj.getTypeAttributs().set(att, "Blob");
+                        nullval = "null";
+                        break;
+                    case ("Datetime"):
+                        rj.getTypeAttributs().set(att, "Date");
+                        nullval = "null";
+                        break;
+                    case ("Decimal"):
+                        rj.getTypeAttributs().set(att, "float");
+                        nullval = "0";
+                        break;
+                    case ("Double"):
+                        rj.getTypeAttributs().set(att, "double");
+                        nullval = "0";
+                        break;
+                    case ("Double Precision"):
+                        rj.getTypeAttributs().set(att, "double");
+                        nullval = "0";
+                        break;
+                    case ("Longblob"):
+                        rj.getTypeAttributs().set(att, "Blob");
+                        nullval = "null";
+                        break;
+                    case ("Longtext"):
+                        rj.getTypeAttributs().set(att, "String");
+                        nullval = "null";
+                        break;
+                    case ("Mediunblob"):
+                        rj.getTypeAttributs().set(att, "Blob");
+                        nullval = "null";
+                        break;
+                    case ("Mediumint"):
+                        rj.getTypeAttributs().set(att, "int");
+                        nullval = "0";
+                        break;
+                    case ("Mediumtext"):
+                        rj.getTypeAttributs().set(att, "String");
+                        nullval = "null";
+                        break;
+                    case ("Numeric"):
+                        rj.getTypeAttributs().set(att, "BigDecimal");
+                        nullval = "null";
+                        break;
+                    case ("Real"):
+                        rj.getTypeAttributs().set(att, "BigInteger");
+                        nullval = "null";
+                        break;
+                    case ("Smallint"):
+                        rj.getTypeAttributs().set(att, "int");
+                        nullval = "0";
+                        break;
+                    case ("Text"):
+                        rj.getTypeAttributs().set(att, "String");
+                        nullval = "null";
+                        break;
+                    case ("Time"):
+                        rj.getTypeAttributs().set(att, "LocalTime");
+                        nullval = "null";
+                        break;
+                    case ("TimeStamp"):
+                        rj.getTypeAttributs().set(att, "LocalDateTime");
+                        nullval = "null";
+                        break;
+                    case ("TinyBlob"):
+                        rj.getTypeAttributs().set(att, "Blob");
+                        nullval = "null";
+                        break;
+                    case ("TinyINT"):
+                        rj.getTypeAttributs().set(att, "int");
+                        nullval = "0";
+                        break;
+                    case ("TinyText"):
+                        rj.getTypeAttributs().set(att, "String");
+                        nullval = "null";
+                        break;
+                    case ("Year"):
+                        rj.getTypeAttributs().set(att, "int");
+                        nullval = "0";
+                        break;
+                    case ("Integer"):
+                        rj.getTypeAttributs().set(att, "Integer");
+                        nullval = "null";
+                        break;
+
+                }
+                att += 1;
+            }
 
             //Définition attributs
             out.write("public class " + rj.getNom() + " {\n\n");
-            
-            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
-                out.write("    private " + rj.getListeEntites().get(j-1).getNom() + " entite"+j+";\n");
+
+            for (int j = 1; j <= rj.getListeEntites().size(); j++) {
+                out.write("    private " + rj.getListeEntites().get(j - 1).getNom() + " entite" + j + ";\n");
             }
-            
-            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
-                out.write("    private String cardinalite"+j+" = \"" + rj.getListeCardinalites().get(j-1) + "\";\n");
+
+            for (int j = 1; j <= rj.getListeEntites().size(); j++) {
+                out.write("    private String cardinalite" + j + " = \"" + rj.getListeCardinalites().get(j - 1) + "\";\n");
             }
-            
-            for (int j=1 ; j<=rj.getListeAttributs().size(); j++) {
-                out.write("    private " + rj.getTypeAttributs().get(j-1) + " " + rj.getListeAttributs().get(j-1) + "; \n");
+
+            for (int j = 1; j <= rj.getListeAttributs().size(); j++) {
+                out.write("    private " + rj.getTypeAttributs().get(j - 1) + " " + rj.getListeAttributs().get(j - 1) + "; \n");
             }
-            
+
             out.write("\n\n");
 
             //Constructeurs
-            
             //Constructeur par défaut
             out.write("    public " + rj.getNom() + "() {\n");
-            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
-                out.write("        this.entite"+j+" = null;\n");
-                out.write("        this.cardinalite"+j+" = \"\";\n");
+            for (int j = 1; j <= rj.getListeEntites().size(); j++) {
+                out.write("        this.entite" + j + " = null;\n");
+                out.write("        this.cardinalite" + j + " = \"\";\n");
             }
-            for (int j=1 ; j<=rj.getListeAttributs().size(); j++) {
-                out.write("        this."+rj.getListeAttributs().get(j-1)+" = null;\n");
+            for (int j = 1; j <= rj.getListeAttributs().size(); j++) {
+                out.write("        this." + rj.getListeAttributs().get(j - 1) + " =" + nullval + ";\n");
             }
             out.write("    }\n\n");
 
             //Constructeur avec tous les paramètres
             out.write("    public " + rj.getNom() + "(");
-            for (int j=1 ; j<=rj.getListeAttributs().size(); j++) {
-               out.write(rj.getTypeAttributs().get(j-1) +" "+ rj.getListeAttributs().get(j-1)+", ");
+            for (int j = 1; j <= rj.getListeAttributs().size(); j++) {
+                out.write(rj.getTypeAttributs().get(j - 1) + " " + rj.getListeAttributs().get(j - 1) + ", ");
             }
-            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
-                out.write("String cardinalite"+j+", ");
+            for (int j = 1; j <= rj.getListeEntites().size(); j++) {
+                out.write("String cardinalite" + j + ", ");
             }
-            for (int j=1 ; j<=rj.getListeEntites().size()-1; j++) {
-               out.write(rj.getListeEntites().get(j-1).getNom() + " entite"+j+", ");
+            for (int j = 1; j <= rj.getListeEntites().size() - 1; j++) {
+                out.write(rj.getListeEntites().get(j - 1).getNom() + " entite" + j + ", ");
             }
-            out.write(rj.getListeEntites().get(rj.getListeEntites().size()-1).getNom() + " entite"+rj.getListeEntites().size()+") {\n");
-            
-            for (int j=1 ; j<=rj.getListeAttributs().size(); j++) {
-                out.write("        this."+rj.getListeAttributs().get(j-1)+" = "+rj.getListeAttributs().get(j-1)+";\n");
+            out.write(rj.getListeEntites().get(rj.getListeEntites().size() - 1).getNom() + " entite" + rj.getListeEntites().size() + ") {\n");
+
+            for (int j = 1; j <= rj.getListeAttributs().size(); j++) {
+                out.write("        this." + rj.getListeAttributs().get(j - 1) + " = " + rj.getListeAttributs().get(j - 1) + ";\n");
             }
-            
-            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
-                out.write("        this.entite"+j+" = entite"+j+";\n");
+
+            for (int j = 1; j <= rj.getListeEntites().size(); j++) {
+                out.write("        this.entite" + j + " = entite" + j + ";\n");
             }
-            
-            for (int j=1 ; j<=rj.getListeCardinalites().size(); j++) {
-                out.write("        this.cardinalite"+j+" = cardinalite"+j+";\n");
+
+            for (int j = 1; j <= rj.getListeCardinalites().size(); j++) {
+                out.write("        this.cardinalite" + j + " = cardinalite" + j + ";\n");
             }
             out.write("    }\n\n");
 
             //Constructeur de recopie
             out.write("    public " + rj.getNom() + "(" + rj.getNom() + " recopie){\n");
-            for (int j=1 ; j<=rj.getListeAttributs().size(); j++) {
-                out.write("        this."+rj.getListeAttributs().get(j-1)+" = recopie."+rj.getListeAttributs().get(j-1)+";\n");
+            for (int j = 1; j <= rj.getListeAttributs().size(); j++) {
+                out.write("        this." + rj.getListeAttributs().get(j - 1) + " = recopie." + rj.getListeAttributs().get(j - 1) + ";\n");
             }
-            for (int j=1 ; j<=rj.getListeEntites().size(); j++) {
-                out.write("        this.entite"+j+" = recopie.entite"+j+";\n");
-                out.write("        this.cardinalite"+j+" = recopie.cardinalite"+j+";\n");
+            for (int j = 1; j <= rj.getListeEntites().size(); j++) {
+                out.write("        this.entite" + j + " = recopie.entite" + j + ";\n");
+                out.write("        this.cardinalite" + j + " = recopie.cardinalite" + j + ";\n");
             }
             out.write("    }\n\n");
 
             //Getters and setters
-            for (int j=1; j<= rj.getListeCardinalites().size(); j++) {
-                
-                out.write("    public " + rj.getListeEntites().get(j-1).getNom() + " getEntite"+j+"(){\n");
-                out.write("        return entite"+j+";\n    }\n\n");
-            
-                out.write("    public String getCardinalite"+j+"(){\n");
-                out.write("        return cardinalite"+j+";\n    }\n\n");
-                
-                out.write("    public void setEntite"+j+"(" + rj.getListeEntites().get(j-1).getNom() + " entite"+j+"){\n");
-                out.write("        this.entite"+j+" = entite"+j+";\n    }\n\n");
-                
-                out.write("    public void setCardinalite"+j+"(String cardinalite"+j+"){\n");
-                out.write("        this.cardinalite"+j+" = cardinalite"+j+";\n    }\n\n");
+            for (int j = 1; j <= rj.getListeCardinalites().size(); j++) {
+
+                out.write("    public " + rj.getListeEntites().get(j - 1).getNom() + " getEntite" + j + "(){\n");
+                out.write("        return entite" + j + ";\n    }\n\n");
+
+                out.write("    public String getCardinalite" + j + "(){\n");
+                out.write("        return cardinalite" + j + ";\n    }\n\n");
+
+                out.write("    public void setEntite" + j + "(" + rj.getListeEntites().get(j - 1).getNom() + " entite" + j + "){\n");
+                out.write("        this.entite" + j + " = entite" + j + ";\n    }\n\n");
+
+                out.write("    public void setCardinalite" + j + "(String cardinalite" + j + "){\n");
+                out.write("        this.cardinalite" + j + " = cardinalite" + j + ";\n    }\n\n");
             }
-            
-            for (int j=1; j<= rj.getListeAttributs().size(); j++) {
-                
-                String Maj = rj.getListeAttributs().get(j-1).replaceFirst(".", (rj.getListeAttributs().get(j-1).charAt(0) + "").toUpperCase());
-                
-                out.write("    public " + rj.getListeAttributs().get(j-1) + " get"+Maj+"(){\n");
-                out.write("        return "+rj.getListeAttributs().get(j-1)+";\n    }\n\n");
-                
-                out.write("    public void set"+Maj+"(" + rj.getTypeAttributs().get(j-1) + " "+rj.getListeAttributs().get(j-1)+"){\n");
-                out.write("        this."+rj.getListeAttributs().get(j-1)+" = "+rj.getListeAttributs().get(j-1)+";\n    }\n\n");
+
+            for (int j = 1; j <= rj.getListeAttributs().size(); j++) {
+
+                String Maj = rj.getListeAttributs().get(j - 1).replaceFirst(".", (rj.getListeAttributs().get(j - 1).charAt(0) + "").toUpperCase());
+
+                out.write("    public " + rj.getListeAttributs().get(j - 1) + " get" + Maj + "(){\n");
+                out.write("        return " + rj.getListeAttributs().get(j - 1) + ";\n    }\n\n");
+
+                out.write("    public void set" + Maj + "(" + rj.getTypeAttributs().get(j - 1) + " " + rj.getListeAttributs().get(j - 1) + "){\n");
+                out.write("        this." + rj.getListeAttributs().get(j - 1) + " = " + rj.getListeAttributs().get(j - 1) + ";\n    }\n\n");
             }
 
             out.write("}");
