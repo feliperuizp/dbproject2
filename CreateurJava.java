@@ -25,28 +25,56 @@ public class CreateurJava {
     private LinkedList<EntiteJava> entites;
     private LinkedList<RelationJava> relations;
 
+    /**
+     * Constructeur
+     * @param adresseXML
+     */
     public CreateurJava(String adresseXML) {
         this.adresseXML = adresseXML;
         this.entites = new LinkedList<>();
         this.relations = new LinkedList<>();
     }
 
+    /**
+     * Getter Entites
+     * @return
+     */
     public LinkedList<EntiteJava> getEntites() {
         return entites;
     }
 
+    /**
+     * Setter Entites
+     * @param entites
+     */
     public void setEntites(LinkedList<EntiteJava> entites) {
         this.entites = entites;
     }
 
+    /**
+     * Getter Relations
+     * @return
+     */
     public LinkedList<RelationJava> getRelations() {
         return relations;
     }
 
+    /**
+     * Setter Relations
+     * @param relations
+     */
     public void setRelations(LinkedList<RelationJava> relations) {
         this.relations = relations;
     }
 
+    /**
+     * Méthode scan
+     * lit le scanner s lettre par lettre pour effacer les lettres inutiles
+     * et separer l'information essentielle dans le String[] separation
+     * @param s
+     * @param n
+     * @return
+     */
     public String[] scan(Scanner s, int n) {
         Scanner s2 = new Scanner(s.nextLine()).useDelimiter("");
         for (int i = 0; i < n; i++) {
@@ -63,6 +91,13 @@ public class CreateurJava {
         return separation = nom.split("\"");
     }
 
+    /**
+     * Méthode lectureFichierXML sert à lire le fichier XML
+     * et sauvegarder l'information comme des objets EntiteJava et
+     * RelationJava
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void lectureFichierXML() throws FileNotFoundException, IOException {
         FileInputStream f = new FileInputStream(adresseXML);
         BufferedReader d = new BufferedReader(new InputStreamReader(f));
@@ -135,6 +170,11 @@ public class CreateurJava {
         }
     }
 
+    /**
+     * Méthoque qui crée les fichiers Java à partir des objets crées
+     * par lectureFichieXML
+     * @throws IOException
+     */
     public void creationFichiers() throws IOException {
 
         String nullval = "";

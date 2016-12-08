@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class ProjetApplication {
 
     /**
+     * Main du projet
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -24,23 +25,6 @@ public class ProjetApplication {
         try {
             cj.lectureFichierXML();
             cj.creationFichiers();
-            
-            /* TEST
-            for (EntiteJava ej: cj.getEntites()){
-                System.out.println(ej.getNom());
-            }
-            
-            System.out.println("asfnoasf");
-            
-            for (RelationJava rj: cj.getRelations()){
-                System.out.println(rj.getNom());
-                System.out.println(rj.getCard1());
-                System.out.println(rj.getCard2());
-                System.out.println(rj.getEntite1().getNom());
-                System.out.println(rj.getEntite2().getNom());
-            }
-            
-            */
             
         } catch (IOException ex) {
             Logger.getLogger(ProjetApplication.class.getName()).log(Level.SEVERE, null, ex);
