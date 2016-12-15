@@ -6,6 +6,7 @@
 package dbproject2;
 
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +21,14 @@ public class ProjetApplication {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        CreateurJava cj = new CreateurJava("/Users/fabienrouillon/Desktop/MCDtest.xml");
+        
+        Scanner reader = new Scanner(System.in);
+        System.out.println("Écrivez le fichier XML que vous voulez lire\n"
+                + "Le fichier doit être dans le même dossier que cette application");
+        
+        String n = reader.nextLine();
+        
+        CreateurJava cj = new CreateurJava(n);
         
         try {
             cj.lectureFichierXML();
